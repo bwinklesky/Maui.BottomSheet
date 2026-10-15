@@ -80,7 +80,9 @@ internal partial class CloseButtonHandler : ViewHandler<CloseButton, UIButton>
     {
         base.ConnectHandler(platformView);
 
-        platformView.TouchUpInside += CloseButtonClicked;
+        // Use the button's semantic activation event, including native close-button
+        // activation and accessibility, rather than a touch-only event.
+        platformView.PrimaryActionTriggered += CloseButtonClicked;
     }
 
     /// <summary>
@@ -93,7 +95,7 @@ internal partial class CloseButtonHandler : ViewHandler<CloseButton, UIButton>
         base.DisconnectHandler(platformView);
 
         platformView.RemoveFromSuperview();
-        platformView.TouchUpInside -= CloseButtonClicked;
+        platformView.PrimaryActionTriggered -= CloseButtonClicked;
     }
 
     /// <summary>

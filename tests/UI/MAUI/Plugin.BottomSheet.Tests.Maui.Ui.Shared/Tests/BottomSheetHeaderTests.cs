@@ -293,6 +293,23 @@ public class BottomSheetHeaderTests : BaseTest, IAsyncLifetime
     
     [Fact]
     [Trait("Category", "BottomSheetHeaderTests.CloseButton")]
+    public async Task BuiltInCloseButton_RepeatedOpenAndClose_RemainsResponsive()
+    {
+        for (int attempt = 0; attempt < 3; attempt++)
+        {
+            BottomSheetHeaderTestsBottomSheetBuiltInHeader bottomSheet = await _bottomSheetHeaderTestsPage.OpenBottomSheetAsync();
+            await bottomSheet.IsCancelableAsync();
+            await bottomSheet.ShowHeaderAsync();
+            await bottomSheet.ShowCloseButtonAsync();
+            await bottomSheet.ClickHeaderCloseButtonAsync();
+
+            Assert.False(bottomSheet.IsOpen());
+            Assert.True(_bottomSheetHeaderTestsPage.IsOpen());
+        }
+    }
+
+    [Fact]
+    [Trait("Category", "BottomSheetHeaderTests.CloseButton")]
     public async Task CancelableSheet_CloseButtonClicked_BottomSheetClosed()
     {
         BottomSheetHeaderTestsBottomSheetBuiltInHeader bottomSheet = await _bottomSheetHeaderTestsPage.OpenBottomSheetAsync();
